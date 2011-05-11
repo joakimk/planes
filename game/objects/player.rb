@@ -2,11 +2,13 @@ class Player < GameObject
   
   attr_accessor :angle, :power, :pos, :vel, :hp, :input, :sprite
   
-  def initialize(input, pos, sprite)
-    @input, @pos, @sprite = input, pos, sprite
+  def initialize(input, sprite, center)
+    @input, @sprite = input, sprite
+    @center = center
     @hp, @angle, @power = 100, 0, 500
     @vel = Vector.new(0, 0)
-    @plane_sprite = Sprite.new(sprite, Vector.new(window.width / 2, window.height / 2), 10)
+    @pos = Vector.new(0, 0)
+    @plane_sprite = Sprite.new(sprite, center, 10)
   end
 
   def update

@@ -5,12 +5,14 @@ class World < GameObject
   def initialize
     @width = 20
     @height = 20
-    @players = [ Player.new(KeyboardInput.new, Vector.new(100, 100), "blue_plane") ]
+    @players = [ Player.new(GamepadInput.new, "blue_plane", Vector.new(window.width / 4 + 16, window.height / 2 + 16)),
+                 Player.new(KeyboardInput.new, "green_plane", Vector.new(window.width / 2 + window.width / 4 + 16, window.height / 2 + 16))  ]
 
     if @players.size == 1
-      @maps = [ Water.new ]
+      @maps = [ Water.new(Vector.new(0, 0), Vector.new(window.width / 2, window.height)) ]
     elsif @players.size == 2
-      @maps = [ Water.new, Water.new ]
+      @maps = [  Water.new(Vector.new(0, 0), Vector.new(window.width / 2, window.height)),
+                 Water.new(Vector.new(window.width / 2, 0), Vector.new(window.width / 2, window.height)) ]
     else
       raise "Unsupported number of players: #{@players.size}"
     end

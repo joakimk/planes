@@ -10,4 +10,5 @@ Screens
 ----
 
 ![A plane over water](http://dl.dropbox.com/u/136929/planes/planes2.png)
+![Splitscreen](http://dl.dropbox.com/u/136929/planes/planes-splitscreen.png)
 

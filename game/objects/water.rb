@@ -2,14 +2,16 @@ class Water < GameObject
   
   attr_accessor :vel
   
-  def initialize
+  def initialize(pos, size)
     @water = Resources.image(window, "water0")
-    @pos = Vector.new(0, 0)
+    @scroll = Vector.new(0, 0)
+    @pos = pos
     @vel = Vector.new(0, 0)
+    @size = size
   end
   
   def update
-    @pos += @vel * window.frame_change(100)
+    @scroll += @vel * window.frame_change(100)
   end
   
   def draw
@@ -21,27 +23,27 @@ class Water < GameObject
   private
   
   def cordinates
-    0.upto((window.width / 32)) do |x|
-      x = (x * 32 + @pos.x)
-      if x > window.width
-        @pos.x = 0 if x > (window.width * 2 - 32)     
-        x = x - window.width - 32
+    0.upto((@size.x / 32)) do |x|
+      x = (x * 32 + @scroll.x)
+      if x > @size.x
+        @scroll.x = 0 if x > (@size.x * 2 - 32)     
+        x = x - @size.x - 32
       elsif x < -32
-        @pos.x = -32 if x < -window.width
-        x = x + window.width + 32
+        @scroll.x = -32 if x < -@size.x
+        x = x + @size.x + 32
       end      
       
-      0.upto((window.height / 32)) do |y|
-        y = (y * 32 + @pos.y)
-        if y > window.height #- 32
-          @pos.y = 0 if y > (window.height * 2 - 32)     
-          y = y - window.height - 32
+      0.upto((@size.y / 32)) do |y|
+        y = (y * 32 + @scroll.y)
+        if y > @size.y #- 32
+          @scroll.y = 0 if y > (@size.y * 2 - 32)     
+          y = y - @size.y - 32
         elsif y < -32
-          @pos.y = -32 if y < -window.height
-          y = y + window.height + 32
+          @scroll.y = -32 if y < -@size.y
+          y = y + @size.y + 32
         end
         
-        yield x, y
+        yield @pos.x + x, @pos.y + y
       end
     end    
   end
