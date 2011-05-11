@@ -1,0 +1,6 @@
+This is a game I began making in 2009. Just a plane over endlessly scrolling water.
+
+Running:
+bundle
+ruby game.rb
+
