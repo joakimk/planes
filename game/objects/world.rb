@@ -6,25 +6,33 @@ class World < GameObject
     @width = 20
     @height = 20
     @players = [ Player.new(KeyboardInput.new, Vector.new(100, 100), "blue_plane") ]
-    @water = Water.new
+
+    if @players.size == 1
+      @maps = [ Water.new ]
+    elsif @players.size == 2
+      @maps = [ Water.new, Water.new ]
+    else
+      raise "Unsupported number of players: #{@players.size}"
+    end
+
     @mini_map = MiniMap.new(Vector.new(window.width - 100, window.height - 100), Vector.new(100, 100), Vector.new(@width * 32, @height * 32), @players)
   end
 
   def update
-    @water.update
+    @maps.each { |m| m.update }
     @players.each { |p| p.update }
     @mini_map.update
 
-    # Todo: split views to support different water objects
-    @water.vel = @players.first.vel
-
-    @players.each { |p| warp_player(p) }
+    @players.each_with_index do |player, i|
+      @maps[i].vel = player.vel
+      warp_player(player)
+    end
 
     close_game if game_over?
   end
   
   def draw
-    @water.draw
+    @maps.each { |m| m.draw }
     @players.each { |p| p.draw }
     @mini_map.draw
   end
