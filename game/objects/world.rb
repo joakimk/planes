@@ -3,15 +3,17 @@ class World < GameObject
   attr_reader :players, :current_player, :terrain
   
   def initialize
-    @player = Player.new(KeyboardInput.new, Vector.new(100, 100))
-    @water = Water.new
     @width = 20
     @height = 20
+    @player = Player.new(KeyboardInput.new, Vector.new(100, 100))
+    @water = Water.new
+    @mini_map = MiniMap.new(Vector.new(window.width - 100, window.height - 100), Vector.new(100, 100), Vector.new(@width * 32, @height * 32), @player)
   end
 
   def update
     @water.update
     @player.update
+    @mini_map.update
     @water.vel = @player.vel
 
     warp_player
@@ -25,6 +27,7 @@ class World < GameObject
   def draw
     @water.draw
     @player.draw
+    @mini_map.draw
   end
         
   # def trigger_event!(type)
