@@ -9,5 +9,5 @@ Running
 Screens
 ----
 
-![A plane over water](http://dl.dropbox.com/u/136929/planes/planes.png)
+![A plane over water](http://dl.dropbox.com/u/136929/planes/planes2.png)
 
