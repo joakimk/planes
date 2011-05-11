@@ -5,12 +5,19 @@ class World < GameObject
   def initialize
     @player = Player.new(KeyboardInput.new, Vector.new(100, 100))
     @water = Water.new
+    @width = 20
+    @height = 20
   end
 
   def update
     @water.update
     @player.update
-    @water.vel = Vector.new(-Gosu::offset_x(@player.angle, 1), -Gosu::offset_y(@player.angle, 1))
+    @water.vel = @player.vel
+
+    warp_player
+
+#p    @player.pos.x
+#p    @player.pos.y
     
     close_game if game_over?
   end
@@ -44,6 +51,20 @@ class World < GameObject
     else
       false
     end  
+  end
+
+  def warp_player
+    if @player.pos.x > @width * 32
+      @player.pos.x = -(@width * 32)
+    elsif @player.pos.x < -(@width * 32)
+      @player.pos.x = @width * 32
+    end
+
+    if @player.pos.y > @height * 32
+      @player.pos.y = -(@height * 32)
+    elsif @player.pos.y < -(@height * 32)
+      @player.pos.y = @height * 32
+    end
   end
 
   def game_over?
