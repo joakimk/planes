@@ -5,9 +5,9 @@ class World < GameObject
   def initialize
     @width = 20
     @height = 20
-    @player = Player.new(KeyboardInput.new, Vector.new(100, 100))
+    @player = Player.new(KeyboardInput.new, Vector.new(100, 100), "blue_plane")
     @water = Water.new
-    @mini_map = MiniMap.new(Vector.new(window.width - 100, window.height - 100), Vector.new(100, 100), Vector.new(@width * 32, @height * 32), @player)
+    @mini_map = MiniMap.new(Vector.new(window.width - 100, window.height - 100), Vector.new(100, 100), Vector.new(@width * 32, @height * 32), [ @player ])
   end
 
   def update
