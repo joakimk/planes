@@ -5,28 +5,27 @@ class World < GameObject
   def initialize
     @width = 20
     @height = 20
-    @player = Player.new(KeyboardInput.new, Vector.new(100, 100), "blue_plane")
+    @players = [ Player.new(KeyboardInput.new, Vector.new(100, 100), "blue_plane") ]
     @water = Water.new
-    @mini_map = MiniMap.new(Vector.new(window.width - 100, window.height - 100), Vector.new(100, 100), Vector.new(@width * 32, @height * 32), [ @player ])
+    @mini_map = MiniMap.new(Vector.new(window.width - 100, window.height - 100), Vector.new(100, 100), Vector.new(@width * 32, @height * 32), @players)
   end
 
   def update
     @water.update
-    @player.update
+    @players.each { |p| p.update }
     @mini_map.update
-    @water.vel = @player.vel
 
-    warp_player
+    # Todo: split views to support different water objects
+    @water.vel = @players.first.vel
 
-#p    @player.pos.x
-#p    @player.pos.y
-    
+    @players.each { |p| warp_player(p) }
+
     close_game if game_over?
   end
   
   def draw
     @water.draw
-    @player.draw
+    @players.each { |p| p.draw }
     @mini_map.draw
   end
         
@@ -56,17 +55,17 @@ class World < GameObject
     end  
   end
 
-  def warp_player
-    if @player.pos.x > @width * 32
-      @player.pos.x = -(@width * 32)
-    elsif @player.pos.x < -(@width * 32)
-      @player.pos.x = @width * 32
+  def warp_player(player)
+    if player.pos.x > @width * 32
+      player.pos.x = -(@width * 32)
+    elsif player.pos.x < -(@width * 32)
+      player.pos.x = @width * 32
     end
 
-    if @player.pos.y > @height * 32
-      @player.pos.y = -(@height * 32)
-    elsif @player.pos.y < -(@height * 32)
-      @player.pos.y = @height * 32
+    if player.pos.y > @height * 32
+      player.pos.y = -(@height * 32)
+    elsif player.pos.y < -(@height * 32)
+      player.pos.y = @height * 32
     end
   end
 
